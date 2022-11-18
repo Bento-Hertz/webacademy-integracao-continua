@@ -37,7 +37,7 @@ jobs:
           distribution: 'zulu'
       - name: CriaJAR
         working-directory: back-end/
-        run: vn --activate-profiles prod -DskipTests package
+        run: mvn --activate-profiles prod -DskipTests package
     
 
   
