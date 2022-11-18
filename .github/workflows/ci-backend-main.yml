@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Teste1
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'zulu'
-      - name: Teste2
+      - name: Teste
         working-directory: back-end/
         run: mvn --activate-profiles prod test
 
@@ -27,12 +27,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: CriaJAR1
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with: 
           java-version: '11'
           distribution: 'zulu'
-      - name: CriaJAR2
+      - name: CriaJAR
         working-directory: back-end/
         run: vn --activate-profiles prod -DskipTests package
     
