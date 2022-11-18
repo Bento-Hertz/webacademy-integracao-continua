@@ -1,4 +1,4 @@
-package br.ufac.sgcmapi.model;//dsfdf
+package br.ufac.sgcmapi.model;//aaaaa
 
 public enum EStatus {
 
