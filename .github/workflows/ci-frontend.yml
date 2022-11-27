@@ -1,0 +1,52 @@
+name: CI Front-end 
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'front-end**'
+  pull_request:
+    paths:
+      - 'front-end/**'
+
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with: 
+          node-version: 16
+      - name: Install Angular
+        run: npm install -g @angular/cli
+      - name: Install Railway
+        run: npm install -g @railway/cli
+      - name: Modulos node
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: front-end/node-modules
+          key: ${{ runner.os }}-build-${{ env.cache-name}}-${{ hashFiles('**/package-look.json') }}
+          restore-keys:
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+          
+      - name: Install
+        working-directory: front-end/
+        run: npm install
+      - name: teste front
+        working-directory: front-end/
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      - name: build
+        working-directory: front-end/
+        run: npm run build --prod
+      - name: Deploy
+        working-directory: front-end/dist/sgcmapp
+        run: railway up --detach --service sgcm_ChDev2
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
